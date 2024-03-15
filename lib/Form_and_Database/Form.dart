@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:kyc_app/VideoScreen.dart'; // Import intl for date formatting
+import 'package:kyc_app/VideoScreen.dart'; // Assuming this is your navigation target
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key}) : super(key: key);
@@ -14,8 +16,8 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final _formKey = GlobalKey<FormState>();
   PageController _pageController = PageController();
-  String _aadhaarNumber = '';
-  String _panNumber = '';
+  TextEditingController _aadhaarNumberController = TextEditingController();
+  TextEditingController _panNumberController = TextEditingController();
   XFile? _aadhaarFrontPhoto;
   XFile? _aadhaarBackPhoto;
   XFile? _panFrontPhoto;
@@ -24,13 +26,14 @@ class _FormScreenState extends State<FormScreen> {
   XFile? _selfPhoto;
   bool _consentGiven = false;
   final ImagePicker _picker = ImagePicker();
-  TextEditingController _dateOfBirthController =
-      TextEditingController(); // Controller for the date of birth
+  TextEditingController _dateOfBirthController = TextEditingController();
 
   @override
   void dispose() {
-    _pageController.dispose(); // Dispose the page controller
-    _dateOfBirthController.dispose(); // Dispose the controller
+    _pageController.dispose();
+    _dateOfBirthController.dispose();
+    _aadhaarNumberController.dispose();
+    _panNumberController.dispose();
     super.dispose();
   }
 
@@ -41,6 +44,52 @@ class _FormScreenState extends State<FormScreen> {
       setState(() {
         onImageSelected(image);
       });
+    }
+  }
+
+  Future<String?> _encodeImageToBase64(XFile? imageFile) async {
+    if (imageFile == null) return null;
+    List<int> imageBytes = await imageFile.readAsBytes();
+    return base64Encode(imageBytes);
+  }
+
+  Future<void> _submitDataToFirebase() async {
+    final String? aadhaarFrontPhotoBase64 =
+        await _encodeImageToBase64(_aadhaarFrontPhoto);
+    final String? aadhaarBackPhotoBase64 =
+        await _encodeImageToBase64(_aadhaarBackPhoto);
+    final String? panFrontPhotoBase64 =
+        await _encodeImageToBase64(_panFrontPhoto);
+    final String? panBackPhotoBase64 =
+        await _encodeImageToBase64(_panBackPhoto);
+    final String? digitalSignBase64 = await _encodeImageToBase64(_digitalSign);
+    final String? selfPhotoBase64 = await _encodeImageToBase64(_selfPhoto);
+
+    final url = Uri.parse(
+        'https://kyc-sc-app-default-rtdb.firebaseio.com/submissions.json');
+
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'aadhaarNumber': _aadhaarNumberController.text,
+            'panNumber': _panNumberController.text,
+            'aadhaarFrontPhoto': aadhaarFrontPhotoBase64,
+            'aadhaarBackPhoto': aadhaarBackPhotoBase64,
+            'panFrontPhoto': panFrontPhotoBase64,
+            'panBackPhoto': panBackPhotoBase64,
+            'digitalSign': digitalSignBase64,
+            'selfPhoto': selfPhotoBase64,
+            'consentGiven': _consentGiven,
+            'dateOfBirth': _dateOfBirthController.text,
+          }));
+
+      if (response.statusCode == 200) {
+        // Navigate to success page or show success message
+      } else {
+        // Handle error
+      }
+    } catch (e) {
+      // Handle error
     }
   }
 
@@ -86,17 +135,33 @@ class _FormScreenState extends State<FormScreen> {
             IconButton(
               icon: Icon(Icons.arrow_forward),
               color: Colors.white,
-              onPressed: () {
+              onPressed: () async {
                 if (_pageController.page!.toInt() < 5) {
                   _pageController.nextPage(
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut);
                 } else {
-                  // If on the last page, navigate to the NextScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VideoScreen()),
-                  );
+                  // Ensure form validation before saving
+                  if (_formKey.currentState?.validate() ?? false) {
+                    _formKey.currentState?.save(); // Now safely calling save
+                    await _submitDataToFirebase();
+
+                    // Show a SnackBar with the success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Your data was successfully sent!'),
+                        duration: Duration(
+                            seconds: 2), // Customize duration if needed
+                      ),
+                    );
+
+                    // Wait for the SnackBar to be displayed before navigating
+                    //await Future.delayed(Duration(seconds: 2));
+
+                    // Navigate to the next screen
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => VideoScreen()));
+                  }
                 }
               },
             ),
@@ -113,6 +178,7 @@ class _FormScreenState extends State<FormScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextFormField(
+            controller: _aadhaarNumberController,
             decoration: InputDecoration(
               labelText: 'Aadhaar Card Number',
               labelStyle: TextStyle(color: Colors.white),
@@ -123,16 +189,26 @@ class _FormScreenState extends State<FormScreen> {
                 borderSide: BorderSide(color: Colors.blueAccent),
               ),
               border: OutlineInputBorder(),
+              // Add errorText dynamically based on the input length.
+              errorText: _aadhaarNumberController.text.length > 12
+                  ? 'Aadhaar number cannot exceed 12 digits'
+                  : null,
             ),
             style: TextStyle(color: Colors.white),
-            onSaved: (value) => _aadhaarNumber = value!,
+            keyboardType: TextInputType.number,
+            // Use onChanged to trigger a UI update when the text changes.
+            onChanged: (value) {
+              // Trigger a rebuild with setState to show/hide the error message as the user types.
+              setState(() {});
+            },
           ),
           SizedBox(height: 20),
           _buildPhotoSection(
-              'Aadhaar Card Front Photo:',
-              _aadhaarFrontPhoto,
-              () => _pickImage(
-                  ImageSource.camera, (xfile) => _aadhaarFrontPhoto = xfile)),
+            'Aadhaar Card Front Photo:',
+            _aadhaarFrontPhoto,
+            () => _pickImage(
+                ImageSource.camera, (xfile) => _aadhaarFrontPhoto = xfile),
+          ),
         ],
       ),
     );
@@ -177,6 +253,7 @@ class _FormScreenState extends State<FormScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextFormField(
+            controller: _panNumberController,
             decoration: InputDecoration(
               labelText: 'PAN Card Number',
               labelStyle: TextStyle(color: Colors.white),
@@ -189,7 +266,6 @@ class _FormScreenState extends State<FormScreen> {
               border: OutlineInputBorder(),
             ),
             style: TextStyle(color: Colors.white),
-            onSaved: (value) => _panNumber = value!,
           ),
           SizedBox(height: 20),
           _buildPhotoSection(

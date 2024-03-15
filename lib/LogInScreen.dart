@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
-import 'package:kyc_app/Form.dart';
+import 'package:kyc_app/Form_and_Database/Form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
