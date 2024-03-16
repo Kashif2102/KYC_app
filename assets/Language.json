@@ -1,0 +1,132 @@
+{
+  "English": {
+    "SplashScreen": {
+      "title": "KYC App",
+      "hintText": "KYC, a few clicks away",
+      "subtitle": "Complete your KYC in minutes",
+      "buttonText": "Create Account"
+    },
+    "MainScreen": {
+      "title": "KYC, a few clicks away",
+      "subtitle": "Complete your KYC in minutes",
+      "buttonText": "Create Account"
+    },
+    "LoginScreen": {
+      "title": "Login",
+      "emailHint": "Email Address",
+      "otpButtonText": "Get OTP",
+      "otpHintText": "OTP",
+      "verifyOTPButtonText": "Verify OTP"
+    },
+    "FormScreen": {
+      "appBarTitle": "KYC Form",
+      "aadhaarLabel": "Aadhaar Card Number",
+      "aadhaarErrorText": "Aadhaar number cannot exceed 12 digits",
+      "aadhaarFrontPhoto": "Aadhaar Card Front Photo:",
+      "aadhaarBackPhoto": "Aadhaar Card Back Photo:",
+      "consentText": "I hereby agree that the above document belongs to me and voluntarily give my consent to [company name] to utilize it as my address proof for KYC purpose only",
+      "panLabel": "PAN Card Number",
+      "panFrontPhoto": "PAN Card Front Photo:",
+      "digitalSign": "Digital Signature",
+      "selfPhoto": "Your Passport Size Photo (recent):",
+      "dateOfBirth": "Date of Birth"
+    },
+    "VideoScreen": {
+      "title": "Kindly provide your camera and microphone permissions to proceed.",
+      "startVideoButtonText": "Start Video",
+      "noteText": "Please note that we are monitoring this camera feed",
+      "acceptButtonText": "Accept and Continue"
+    },
+    "KYCVerifiedScreen": {
+      "title": "KYC completed",
+      "subtitle": "Thanks for submitting your document we'll verify it and complete your KYC as soon as possible"
+    }
+  },
+  "Hindi": {
+    "SplashScreen": {
+      "title": "केवाईसी ऐप",
+      "hintText": "केवाईसी, कुछ क्लिक में",
+      "subtitle": "कुछ मिनटों में अपनी केवाईसी पूरी करें",
+      "buttonText": "खाता बनाएं"
+    },
+    "MainScreen": {
+      "title": "केवाईसी, कुछ क्लिक में",
+      "subtitle": "कुछ मिनटों में अपनी केवाईसी पूरी करें",
+      "buttonText": "खाता बनाएं"
+    },
+    "LoginScreen": {
+      "title": "लॉग इन",
+      "emailHint": "ईमेल पता",
+      "otpButtonText": "ओटीपी प्राप्त करें",
+      "otpHintText": "ओटीपी",
+      "verifyOTPButtonText": "ओटीपी सत्यापित करें"
+    },
+    "FormScreen": {
+      "appBarTitle": "केवाईसी फ़ॉर्म",
+      "aadhaarLabel": "आधार कार्ड नंबर",
+      "aadhaarErrorText": "आधार नंबर 12 अंकों से अधिक नहीं हो सकता",
+      "aadhaarFrontPhoto": "आधार कार्ड फ्रंट फोटो:",
+      "aadhaarBackPhoto": "आधार कार्ड बैक फोटो:",
+      "consentText": "मैं यहाँ घोषित करता हूँ कि ऊपर उल्लिखित दस्तावेज मेरे पास है और मैं इसे आपको मेरे पते का प्रमाण स्वीकृति देता हूँ केवाईसी का उपयोग करने के लिए विवेकित रूप से केवाईसी के लिए शुद्ध होना चाहिए",
+      "panLabel": "पैन कार्ड नंबर",
+      "panFrontPhoto": "पैन कार्ड फ्रंट फोटो:",
+      "digitalSign": "डिजिटल हस्ताक्षर",
+      "selfPhoto": "आपकी पासपोर्ट साइज फोटो (हाल का):",
+      "dateOfBirth": "जन्म तिथि"
+    },
+    "VideoScreen": {
+      "title": "कृपया आगे बढ़ने के लिए अपनी कैमरा और माइक्रोफ़ोन अनुमतियों को प्रदान करें।",
+      "startVideoButtonText": "वीडियो शुरू करें",
+      "noteText": "कृपया ध्यान दें कि हम इस कैमरा फीड को मॉनिटर कर रहे हैं",
+      "acceptButtonText": "स्वीकार करें और जारी रखें"
+    },
+    "KYCVerifiedScreen": {
+      "title": "केवाईसी पूरी हो गई",
+      "subtitle": "आपके दस्तावेज़ प्रस्तुत करने के लिए धन्यवाद हम इसे सत्यापित करेंगे और जल्द से जल्द आपकी केवाईसी पूरी करेंगे"
+    }
+  },
+  "Tamil": {
+    "SplashScreen": {
+      "title": "KYC பயன்பாடு",
+      "hintText": "KYC, சில கிளிக்குகளில்",
+      "subtitle": "சில நிமிடங்களில் உங்கள் KYC முடித்துக் கொள்ளவும்",
+      "buttonText": "கணக்கு உருவாக்கவும்"
+    },
+    "MainScreen": {
+      "title": "KYC, சில கிளிக்குகளில்",
+      "subtitle": "சில நிமிடங்களில் உங்கள் KYC முடித்துக் கொள்ளவும்",
+      "buttonText": "கணக்கு உருவாக்கவும்"
+    },
+    "LoginScreen": {
+      "title": "உள்நுழைய",
+      "emailHint": "மின்னஞ்சல் முகவரி",
+      "otpButtonText": "ஓடிபிய்க் பெறுக",
+      "otpHintText": "ஓடிபிய்",
+      "verifyOTPButtonText": "ஓடிபிய் சரிபார்க்கவும்"
+    },
+    "FormScreen": {
+      "appBarTitle": "KYC படிவம்",
+      "aadhaarLabel": "ஆதார் அட்டை எண்",
+      "aadhaarErrorText": "ஆதார் எண் 12 இலக்கங்களை மீட்க முடியாது",
+      "aadhaarFrontPhoto": "ஆதார் அட்டை முன் படம்:",
+      "aadhaarBackPhoto": "ஆதார் அட்டை பின் படம்:",
+      "consentText": "மேலே குறிப்பிட்ட ஆவணம் எனக்கு உள்ளது என்று நான் ஒப்புக்கொள்கிறேன் மற்றும் KYC காரணமாக அதை எனக்கு அனுமதி வழங்கியதாக [நிறுவனத்தின் பெயர்] என்கிறேன்",
+      "panLabel": "பான் அட்டை எண்",
+      "panFrontPhoto": "பான் அட்டை முன் படம்:",
+      "digitalSign": "டிஜிட்டல் கையொப்பம்",
+      "selfPhoto": "உங்கள் சரித்திர அளவு படம் (சமீபத்தியம்):",
+      "dateOfBirth": "பிறந்த தேதி"
+    },
+    "VideoScreen": {
+      "title": "தயவுசெய்து தொலைபேசி மற்றும் மைக்ரோஃபோன் அனுமதிகளை வழங்கி முன்னேற்றத்தை வழுவிக்கவும்.",
+      "startVideoButtonText": "வீடியோ தொடங்கு",
+      "noteText": "தயவுசெய்து இந்த கேமரா ஃபீடை நாம் கண்காணிக்கிறோம் என்பதை கொண்டுவருகின்றோம்",
+      "acceptButtonText": "ஏனையது ஏனையது தொடர்க"
+    },
+    "KYCVerifiedScreen": {
+      "title": "KYC முடிந்தது",
+      "subtitle": "உங்கள் ஆவணத்தை சமர்ப்பித்ததற்கு நன்றி, நாங்கள் அதை சரிபார்க்கி உங்கள் கணக்கு சேமிக்கப்பட்டுள்ளது. இந்தத் தகவல் எமது சக்திப் பரிந்துரையாளர்களுக்கு வழங்கப்படும் அரசியல் நடவடிக்கை மட்டுமே பயன்படும் என்று நான் உறுதிப்படுத்துகிறேன். இதில் உள்ள அனைத்து தகவல்களும் காப்பாற்றப்படும் மற்றும் அவற்றை எப்போதும் பயன்படுத்தப்படும்.",
+      "loginButtonText": "உள்நுழைய"
+    }
+  }
+}

@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
       // Wait for animation to complete then navigate to MainScreen
       Future.delayed(const Duration(milliseconds: 800), () {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MainScreen()));
+            MaterialPageRoute(builder: (context) => MainScreen()));
       });
     });
   }

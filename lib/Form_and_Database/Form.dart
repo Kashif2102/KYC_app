@@ -141,24 +141,19 @@ class _FormScreenState extends State<FormScreen> {
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut);
                 } else {
-                  // Ensure form validation before saving
+                  // validation before saving
                   if (_formKey.currentState?.validate() ?? false) {
                     _formKey.currentState?.save(); // Now safely calling save
                     await _submitDataToFirebase();
 
-                    // Show a SnackBar with the success message
+                    // SnackBar
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Your data was successfully sent!'),
-                        duration: Duration(
-                            seconds: 2), // Customize duration if needed
+                        content: Text('Your data was sent successfully!'),
+                        duration: Duration(seconds: 2),
                       ),
                     );
 
-                    // Wait for the SnackBar to be displayed before navigating
-                    //await Future.delayed(Duration(seconds: 2));
-
-                    // Navigate to the next screen
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => VideoScreen()));
                   }
