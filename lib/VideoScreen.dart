@@ -15,7 +15,7 @@ class _VideoScreenState extends State<VideoScreen> {
   CameraController? _cameraController;
   bool _isCameraInitialized = false;
   bool _showCamera = false;
-  Color _outlineColor = Colors.transparent; // State for the outline color
+  Color _outlineColor = Colors.transparent; //outline color
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
       _cameraController =
           CameraController(frontCamera, ResolutionPreset.medium);
-      await _cameraController?.initialize();
+      await _cameraController!.initialize();
       if (!mounted) {
         return;
       }
@@ -48,12 +48,29 @@ class _VideoScreenState extends State<VideoScreen> {
         _isCameraInitialized = true;
       });
 
-      // Start a timer to change the outline color to green after 10 seconds
-      Timer(const Duration(seconds: 10), () {
-        if (mounted) {
+      // Function to change the outline color to green and then back to transparent
+      void changeOutlineColor() {
+        setState(() {
+          _outlineColor = Colors.green;
+        });
+        // After 3 seconds, change the outline color back to transparent
+        Future.delayed(const Duration(seconds: 3), () {
           setState(() {
-            _outlineColor = Colors.green;
+            _outlineColor = Colors.transparent;
           });
+          // Start a timer to change the outline color to green again after 7 seconds
+          Timer(const Duration(seconds: 7), () {
+            if (mounted) {
+              changeOutlineColor();
+            }
+          });
+        });
+      }
+
+      // Start a timer to change the outline color to green after 7 seconds
+      Timer(const Duration(seconds: 7), () {
+        if (mounted) {
+          changeOutlineColor();
         }
       });
     } else {

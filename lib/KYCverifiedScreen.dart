@@ -13,11 +13,11 @@ class KYCVerifiedScreen extends StatelessWidget {
           children: [
             // Placeholder for PNG image, replace with your actual image widget
             Image.asset(
-              'assets/images/mark.png', // Replace with your image path
-              width: 100, // Adjust the size according to your needs
-              height: 100, // Adjust the size according to your needs
+              'assets/images/mark.png',
+              width: 100,
+              height: 100,
             ),
-            const SizedBox(height: 20), // Gap between image and text
+            const SizedBox(height: 20),
             const Text(
               'KYC completed',
               style: TextStyle(
@@ -26,10 +26,9 @@ class KYCVerifiedScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20), // Gap between texts
+            const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 32.0), // Adjust the padding as needed
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
               child: Text(
                 "Thanks for submitting your document we'll verify it and complete your KYC as soon as possible",
                 textAlign: TextAlign.center,

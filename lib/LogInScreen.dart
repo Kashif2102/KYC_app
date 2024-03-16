@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:kyc_app/Form_and_Database/Form.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final String selectedLanguage; // Field to hold the passed language value
+
+  const LoginScreen({Key? key, required this.selectedLanguage})
+      : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -13,15 +17,55 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
   final EmailOTP myAuth = EmailOTP();
+  bool _isButtonDisabled = false;
+  late String _selectedLanguage; // Declare the variable
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedLanguage =
+        widget.selectedLanguage; // Initialize with the passed language
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Text elements based on selected language
+    String loginText;
+    String emailHintText;
+    String getOtpButtonText;
+    String otpHintText;
+    String verifyOtpButtonText;
+
+    switch (_selectedLanguage) {
+      case 'Hindi':
+        loginText = 'लॉगिन';
+        emailHintText = 'ईमेल पता';
+        getOtpButtonText = 'ओटीपी प्राप्त करें';
+        otpHintText = 'ओटीपी';
+        verifyOtpButtonText = 'ओटीपी सत्यापित करें';
+        break;
+      case 'Tamil':
+        loginText = 'உள்நுழைவு';
+        emailHintText = 'மின்னஞ்சல் முகவரி';
+        getOtpButtonText = 'ஓடிபி பெறுக';
+        otpHintText = 'ஓடிபி';
+        verifyOtpButtonText = 'ஓடிபி சரிபார்க்கவும்';
+        break;
+      default: // English and any other languages will default to English
+        loginText = 'Login';
+        emailHintText = 'Email Address';
+        getOtpButtonText = 'Get OTP';
+        otpHintText = 'OTP';
+        verifyOtpButtonText = 'Verify OTP';
+        break;
+    }
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 6, 27, 1),
       body: Column(
         children: [
           Container(
-            color: Color.fromRGBO(0, 6, 27, 1), // Same color as the background
+            color: Color.fromRGBO(0, 6, 27, 1),
             child: Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 10),
               child: Image.asset(
@@ -32,31 +76,27 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Expanded(
             child: Container(
-              color: Colors.white, // White background
+              color: Colors.white,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        "Login",
+                      SizedBox(height: 10),
+                      Text(
+                        loginText,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                       ),
-                      SizedBox(
-                        height: 50,
-                      ),
+                      SizedBox(height: 50),
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          hintText: 'Email Address',
+                          hintText: emailHintText,
                           prefixIcon: Icon(Icons.email, color: Colors.black),
                           filled: true,
                           fillColor: Colors.white,
@@ -76,19 +116,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: _sendOTP,
+                        onPressed: _isButtonDisabled ? null : _sendOTP,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromRGBO(97, 115, 149, 1),
                           foregroundColor: Colors.white,
                         ),
-                        child: const Text('Get OTP'),
+                        child: Text(getOtpButtonText),
                       ),
                       SizedBox(height: 20),
                       TextFormField(
                         controller: _otpController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: 'OTP',
+                          hintText: otpHintText,
                           prefixIcon: Icon(Icons.lock, color: Colors.black),
                           filled: true,
                           fillColor: Colors.white,
@@ -113,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           backgroundColor: Color.fromRGBO(97, 115, 149, 1),
                           foregroundColor: Colors.white,
                         ),
-                        child: const Text('Verify OTP'),
+                        child: Text(verifyOtpButtonText),
                       ),
                     ],
                   ),
@@ -127,6 +167,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _sendOTP() async {
+    // Disable the button
+    setState(() {
+      _isButtonDisabled = true;
+    });
+
     // Dynamically set the EmailOTP configuration with the user's email
     myAuth.setConfig(
       appEmail: "me@rohitchouhan.com",
@@ -152,6 +197,13 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text("Error sending OTP: $e"),
       ));
     }
+
+    // Enable the button after 15 seconds
+    Timer(Duration(seconds: 15), () {
+      setState(() {
+        _isButtonDisabled = false;
+      });
+    });
   }
 
   Future<void> _verifyOTP() async {
